@@ -6,7 +6,7 @@ const bookSchema = mongoose.Schema({
     required: true,
   },
   topic: {
-    type: [String],
+    type: String,
     required: true,
   },
   summary: {

@@ -2,18 +2,22 @@ import BookModel from "../models/books.models.js";
 
 export const addBook = async (req, res) => {
   try {
-    const { user, customData } = req;
+    const { user,book, customData } = req;
 
     if (customData.role !== "Admin") {
       return res.status(403).json({ message: "Access denied" });
     }
     //const userId = user._id;
-
+    console.log('Book: ',book);
+    
     const newBook = await BookModel.create({
-      title: user.title,
-      topic: user.topic,
-      summary: user.summary,
+      title: book.title,
+      topic: book.topic,
+      summary: book.summary,
     });
+
+    console.log('New Book: ',newBook);
+    
 
     res.status(201).json({
       success: true,
@@ -42,7 +46,7 @@ export const getBook = async (req, res) => {
 
 export const updateBook = async (req, res) => {
   try {
-    const { user, customData } = req;
+    const { user,book, customData } = req;
 
     if (customData.role !== "Admin") {
       return res.status(403).json({ message: "Access denied" });
@@ -51,9 +55,9 @@ export const updateBook = async (req, res) => {
 
     const bookId = req.params.id;
     const updatedBook = await BookModel.findByIdAndUpdate(bookId, {
-      title: user.title,
-      topic: user.topic,
-      summary: user.summary,
+      title: book.title,
+      topic: book.topic,
+      summary: book.summary,
     });
     res.status(200).json({
       success: true,
@@ -68,7 +72,7 @@ export const updateBook = async (req, res) => {
 
 export const deleteBook = async (req, res) => {
   try {
-    const { user, customData } = req;
+    const { user,book, customData } = req;
 
     if (customData.role !== "Admin") {
       return res.status(403).json({ message: "Access denied" });

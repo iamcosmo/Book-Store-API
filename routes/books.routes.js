@@ -8,7 +8,7 @@ const bookRouter = express.Router();
 
 bookRouter.post('/', authMiddleware, addBook);
 
-bookRouter.get('/', authMiddleware,cache, getBook);
+bookRouter.get('/', authMiddleware, getBook);
 
 bookRouter.put('/:id', authMiddleware, updateBook);
 
