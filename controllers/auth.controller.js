@@ -1,4 +1,4 @@
-import UserDataModel from "../models/user.model.js";
+import UserDataModel from "../models/users.models.js";
 import { createToken } from "../helpers/auth.helper.js";
 import { hashPassword,validateStrongPassword, comparePassword } from "../helpers/auth.helper.js";
 
@@ -6,6 +6,8 @@ export const signUpUser = async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
+    console.log('username: ',username);
+    
     const existingUser = await UserDataModel.findOne({ username });
     if (!existingUser) {
       const hashedPassword = await hashPassword(password);
@@ -24,10 +26,17 @@ export const signUpUser = async (req, res) => {
         role: role,
       });
 
+      console.log('user created: ',user);
+      
+
       const token = createToken(user._id);
+
+      console.log('token created: ',token);
+      
       return res.status(200).json({
         user: {
           username: user.username,
+          password: user.password,
           role: user.role,
         },
         token,
@@ -77,6 +86,7 @@ export const logInUser = async (req, res) => {
       message: "Login Sucessful",
       user: {
         username: user.username,
+        password: user.password,
         role: user.role,
       },
       token,

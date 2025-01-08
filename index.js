@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import limiter from './middlewares/rateLimiter.middleware.js';
+import authRouter from './routes/users.routes.js';
 import booksRouter from './routes/books.routes.js';
 import { connectDB } from "./config/db.js";
 import cors from 'cors';
@@ -21,7 +22,7 @@ app.use(morgan("dev"));
 connectDB();
 
 
-app.use('/auth', booksRouter);
+app.use('/auth', authRouter);
 app.use('/books', booksRouter);
 
 const PORT = process.env.PORT || 3000;
