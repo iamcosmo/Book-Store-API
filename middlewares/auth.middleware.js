@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import UserDataModel from "../models/users.models.js";
 
 export const authMiddleware = async (req, res, next) => {
-  console.log("req: ", req);
+  //console.log("req: ", req);
 
   console.log("middleware initiated!!");
   try {
