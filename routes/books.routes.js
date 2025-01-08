@@ -1,7 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
-import cache from '../middleware/cache.js';
-import rbac from '../middleware/rbac.js';
+import cache from '../middlewares/cache.middleware.js';
 import { getBook,addBook,updateBook,deleteBook } from '../controllers/books.controller.js';
 
 const bookRouter = express.Router();

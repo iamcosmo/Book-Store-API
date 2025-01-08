@@ -1,4 +1,5 @@
-const redis = require('redis');
+import redis from 'redis';
+
 const client = redis.createClient();
 
 client.connect().catch(console.error);
@@ -6,7 +7,7 @@ client.connect().catch(console.error);
 const cache = async (req, res, next) => {
   const key = req.originalUrl;
   const cachedData = await client.get(key);
-  
+
   if (cachedData) {
     return res.json(JSON.parse(cachedData));
   } else {
@@ -19,4 +20,4 @@ const cache = async (req, res, next) => {
   }
 };
 
-module.exports = cache;
+export default cache;
