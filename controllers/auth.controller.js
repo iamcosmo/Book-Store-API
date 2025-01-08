@@ -1,13 +1,12 @@
 import UserDataModel from "../models/user.model.js";
 import { createToken } from "../helpers/auth.helper.js";
-
 import { hashPassword,validateStrongPassword, comparePassword } from "../helpers/auth.helper.js";
 
 export const signUpUser = async (req, res) => {
   try {
-    const { firstname, lastname, email, password, profileurl } = req.body;
+    const { username, password, role } = req.body;
 
-    const existingUser = await UserDataModel.findOne({ email });
+    const existingUser = await UserDataModel.findOne({ username });
     if (!existingUser) {
       const hashedPassword = await hashPassword(password);
 
@@ -20,28 +19,22 @@ export const signUpUser = async (req, res) => {
       }
 
       const user = await UserDataModel.create({
-        name: {
-          firstname,
-          lastname,
-        },
-        email,
+        username: username,
         password: hashedPassword,
-        profileurl: profileurl,
+        role: role,
       });
 
       const token = createToken(user._id);
       return res.status(200).json({
         user: {
-          firstname: user.name.firstname,
-          lastname: user.name.lastname,
-          email: user.email,
-          profileurl: user.profileurl,
+          username: user.username,
+          role: user.role,
         },
         token,
         message: "Successfully submitted",
       });
     } else {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
   } catch (error) {
     if (error.name === "CastError") {
@@ -54,15 +47,15 @@ export const signUpUser = async (req, res) => {
 
 export const logInUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { username, password } = req.body;
+    if (!username || !password) {
       return res.status(400).send({
         sucess: false,
         message: "All parameters are Needed!",
       });
     }
 
-    const user = await UserDataModel.findOne({ email });
+    const user = await UserDataModel.findOne({ username });
     if (!user) {
       return res.status(404).send({
         success: false,
@@ -83,10 +76,8 @@ export const logInUser = async (req, res) => {
       success: true,
       message: "Login Sucessful",
       user: {
-        firstname: user.name.firstname,
-        lastname: user.name.lastname,
-        email: user.email,
-        profileurl: user.profileurl,
+        username: user.username,
+        role: user.role,
       },
       token,
     });
