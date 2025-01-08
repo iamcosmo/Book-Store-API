@@ -7,12 +7,12 @@ import { getBook,addBook,updateBook,deleteBook } from '../controllers/books.cont
 const bookRouter = express.Router();
 
 
-bookRouter.post('/', rbac(['Admin']),authMiddleware, addBook);
+bookRouter.post('/', authMiddleware, addBook);
 
 bookRouter.get('/', authMiddleware,cache, getBook);
 
-bookRouter.put('/:id', rbac(['Admin']),authMiddleware, updateBook);
+bookRouter.put('/:id', authMiddleware, updateBook);
 
-bookRouter.delete('/:id', rbac(['Admin']), authMiddleware,deleteBook);
+bookRouter.delete('/:id', authMiddleware,deleteBook);
 
 export default bookRouter;
