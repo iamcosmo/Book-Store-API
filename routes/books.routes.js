@@ -1,32 +1,18 @@
 import express from 'express';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 import cache from '../middleware/cache.js';
 import rbac from '../middleware/rbac.js';
-import Book from '../models/Book.js';
+import { getBook,addBook,updateBook,deleteBook } from '../controllers/books.controller.js';
+
+const bookRouter = express.Router();
 
 
-let books = [];
+bookRouter.post('/', rbac(['Admin']),authMiddleware, addBook);
 
-router.post('/', rbac(['Admin']), (req, res) => {
-  const book = req.body;
-  books.push(book);
-  res.status(201).json({ message: 'Book created', book });
-});
+bookRouter.get('/', authMiddleware,cache, getBook);
 
-router.get('/', cache, (req, res) => {
-  res.json(books);
-});
+bookRouter.put('/:id', rbac(['Admin']),authMiddleware, updateBook);
 
-router.put('/:id', rbac(['Admin']), (req, res) => {
-  const { id } = req.params;
-  const updatedBook = req.body;
-  books = books.map(book => (book.id === id ? updatedBook : book));
-  res.json({ message: 'Book updated', updatedBook });
-});
+bookRouter.delete('/:id', rbac(['Admin']), authMiddleware,deleteBook);
 
-router.delete('/:id', rbac(['Admin']), (req, res) => {
-  const { id } = req.params;
-  books = books.filter(book => book.id !== id);
-  res.json({ message: 'Book deleted' });
-});
-
-module.exports = router;
+export default bookRouter;

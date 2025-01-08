@@ -8,5 +8,5 @@ const rbac = (roles) => {
     };
   };
   
-  module.exports = rbac;
+  export default rbac;
   

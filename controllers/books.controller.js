@@ -2,15 +2,18 @@ import BookModel from "../models/books.models";
 
 export const addBook = async (req, res) => {
   try {
-    const { title, topic, summary } = req.body;
-    const userId = req.user._id; 
+    const { user, customData } = req;
+
+    if (customData.role !== "Admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+    //const userId = user._id;
+
     const newBook = await BookModel.create({
-      title: title,
-      topic: topic,
-      summary: summary,
-      user: userId,
+      title: user.title,
+      topic: user.topic,
+      summary: user.summary,
     });
-    
 
     res.status(201).json({
       success: true,
@@ -23,7 +26,7 @@ export const addBook = async (req, res) => {
   }
 };
 
-export const getBook = async (req,res)=>{
+export const getBook = async (req, res) => {
   try {
     const book = await BookModel.find();
     res.status(200).json({
@@ -31,10 +34,55 @@ export const getBook = async (req,res)=>{
       message: "All books retrieved successfully",
       book: book,
     });
-   
   } catch (error) {
     console.error("Error retrieving books:", error);
     res.status(500).json({ success: false, message: "Error retrieving books" });
   }
+};
 
-}
+export const updateBook = async (req, res) => {
+  try {
+    const { user, customData } = req;
+
+    if (customData.role !== "Admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+    const userId = user._id;
+
+    const bookId = req.params.id;
+    const updatedBook = await BookModel.findByIdAndUpdate(bookId, {
+      title: user.title,
+      topic: user.topic,
+      summary: user.summary,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Book updated successfully",
+      book: updatedBook,
+    });
+  } catch (error) {
+    console.error("Error updating book:", error);
+    res.status(500).json({ success: false, message: "Error updating book" });
+  }
+};
+
+export const deleteBook = async (req, res) => {
+  try {
+    const { user, customData } = req;
+
+    if (customData.role !== "Admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+    //const userId = user._id;
+
+    const bookId = req.params.id;
+    await BookModel.findByIdAndDelete(bookId);
+    res.status(200).json({
+      success: true,
+      message: "Book deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    res.status(500).json({ success: false, message: "Error deleting book" });
+  }
+};

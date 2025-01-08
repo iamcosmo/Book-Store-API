@@ -20,6 +20,10 @@ console.log('middleware initiated!!');
     console.log('Moving to end of middleware');
 
     req.user = user; // Attach user to request object
+    req.customData = {
+        role: user.role,
+        message: "User authenticated",
+      };
     console.log("moving to next()");
     next();
   } catch (error) {
