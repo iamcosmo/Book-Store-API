@@ -18,10 +18,8 @@ A RESTful **Book Store API** built using **Node.js**, **Express**, **MongoDB**, 
 7. [Redis & Mock Redis Integration](#redis--mock-redis-integration)
 8. [Testing](#testing)
 9. [Example Responses](#example-responses)
-10. [Rate Limiting Demonstration](#rate-limiting-demonstration)
-11. [Postman Documentation](#postman-documentation)
-12. [Project Structure](#project-structure)
-13. [License](#license)
+10. [Project Structure](#project-structure)
+11. [License](#license)
 
 ---
 
