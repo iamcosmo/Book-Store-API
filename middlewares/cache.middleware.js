@@ -22,7 +22,7 @@ const cache = async (req, res, next) => {
     next();
   } catch (error) {
     console.error('Cache middleware error:', error);
-    next();  // Proceed to the next middleware if Redis fails
+    next();  
   }
 };
 

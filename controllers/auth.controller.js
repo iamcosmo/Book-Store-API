@@ -36,7 +36,7 @@ export const signUpUser = async (req, res) => {
       return res.status(200).json({
         user: {
           username: user.username,
-          password: user.password,
+          userId: user._id,
           role: user.role,
         },
         token,
@@ -86,7 +86,7 @@ export const logInUser = async (req, res) => {
       message: "Login Sucessful",
       user: {
         username: user.username,
-        password: user.password,
+        userId: user._id,
         role: user.role,
       },
       token,
