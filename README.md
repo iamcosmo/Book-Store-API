@@ -6,7 +6,7 @@ A RESTful **Book Store API** built using **Node.js**, **Express**, **MongoDB**, 
 
 ## 📖 Table of Contents
 
-1. [Overview](#overview)
+1. [Overview](##overview)
 2. [Features](#features)
 3. [Technologies Used](#technologies-used)
 4. [Getting Started](#getting-started)
