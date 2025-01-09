@@ -33,7 +33,7 @@ export const addBook = async (req, res) => {
 export const getBook = async (req, res) => {
   try {
     const book = await BookModel.find();
-    res.status(200).json(book);
+    res.status(200).json({book,message: "Books Store View" });
   } catch (error) {
     console.error("Error retrieving books:", error);
     res.status(500).json({ success: false, message: "Error retrieving books" });
