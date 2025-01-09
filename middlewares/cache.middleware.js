@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const client = createClient({ url: process.env.REDIS_URL });
+const client = createClient({ url: 'redis://localhost:6380' });
 await client.connect().catch(console.error);
 
 const cache = async (req, res, next) => {
